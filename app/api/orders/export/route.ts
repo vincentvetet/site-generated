@@ -1,0 +1,3 @@
+import { requireUser, apiError } from "@/lib/api"; import { prisma } from "@/lib/prisma";
+const esc=(value:unknown)=>`"${String(value??'').replaceAll('"','""')}"`;
+export async function GET(){try{const user=await requireUser();const orders=await prisma.order.findMany({where:{userId:user.id},include:{shop:true},orderBy:{createdAt:'desc'}});const csv=['id,boutique,prix,statut,suivi,date',...orders.map(o=>[o.id,o.shop.name,o.price,o.status,o.tracking,o.createdAt.toISOString()].map(esc).join(','))].join('\n');return new Response(csv,{headers:{'content-type':'text/csv; charset=utf-8','content-disposition':'attachment; filename="commandes.csv"'}})}catch(e){return apiError(e)}}

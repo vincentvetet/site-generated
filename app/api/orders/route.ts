@@ -1,0 +1,3 @@
+import { prisma } from "@/lib/prisma"; import { apiError, protectMutation, requireUser } from "@/lib/api"; import { orderSchema } from "@/lib/validation"; import { NextResponse } from "next/server";
+export async function GET(){try{const user=await requireUser();return NextResponse.json(await prisma.order.findMany({where:{userId:user.id},include:{shop:true},orderBy:{createdAt:'desc'}}))}catch(e){return apiError(e)}}
+export async function POST(request:Request){try{const blocked=protectMutation(request);if(blocked)return blocked;const user=await requireUser();const data=orderSchema.parse(await request.json());return NextResponse.json(await prisma.order.create({data:{...data,userId:user.id}}),{status:201})}catch(e){return apiError(e)}}

@@ -1,0 +1,3 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+@layer base{*{@apply border-white/10}body{@apply bg-background text-zinc-100 antialiased}button,a{@apply transition-colors} }
+.ambient{background:radial-gradient(circle,rgba(126,75,255,.2),transparent 62%)}

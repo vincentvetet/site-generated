@@ -1,0 +1,1 @@
+"use client"; export default function Error({reset}:{reset:()=>void}){return <main className="grid min-h-screen place-items-center text-center"><div><p className="text-red-300">Erreur 500</p><h1 className="mt-2 text-3xl font-bold">Une erreur est survenue</h1><button className="mt-5 rounded bg-purple px-4 py-2" onClick={reset}>Réessayer</button></div></main>}

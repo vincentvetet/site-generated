@@ -1,0 +1,3 @@
+import { prisma } from "@/lib/prisma"; import { apiError, protectMutation, requireAdmin } from "@/lib/api"; import { shopSchema } from "@/lib/validation"; import { NextResponse } from "next/server";
+export async function GET(){const shops=await prisma.shop.findMany({orderBy:{createdAt:'desc'}});return NextResponse.json(shops)}
+export async function POST(request:Request){try{const blocked=protectMutation(request);if(blocked)return blocked;await requireAdmin();const data=shopSchema.parse(await request.json());return NextResponse.json(await prisma.shop.create({data:{...data,logo:data.logo||null}}),{status:201})}catch(e){return apiError(e)}}

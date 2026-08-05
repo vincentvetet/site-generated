@@ -1,0 +1,1 @@
+import { prisma } from "@/lib/prisma"; import { apiError, requireAdmin } from "@/lib/api"; import { NextResponse } from "next/server"; export async function GET(){try{await requireAdmin();return NextResponse.json(await prisma.user.findMany({select:{id:true,name:true,email:true,role:true,createdAt:true}}))}catch(e){return apiError(e)}}
